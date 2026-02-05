@@ -1,0 +1,4 @@
+.devcontainer
+.github
+.env
+__pycache__
