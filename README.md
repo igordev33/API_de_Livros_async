@@ -27,7 +27,7 @@ API RESTful para gerenciamento de livros desenvolvida com FastAPI, SQLAlchemy, R
 Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
 ```env
-DATABASE_URL=sqlite:///./livros.db
+DATABASE_URL=sqlite:///./database.db
 API_USER=seu_usuario
 API_PASSWORD=sua_senha
 ```
@@ -219,14 +219,3 @@ A API utiliza Redis para cache de consultas de listagem de livros com TTL de 60 
 | nome_livro | String | Nome do livro (obrigatório) |
 | autor_livro | String | Autor do livro (obrigatório) |
 | ano_livro | Integer | Ano de publicação (obrigatório) |
-
-## Desenvolvimento
-
-O projeto está configurado para modo de desenvolvimento com hot-reload habilitado no Uvicorn.
-
-Para desenvolvimento local sem Docker:
-
-```bash
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
