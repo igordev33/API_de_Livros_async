@@ -53,7 +53,7 @@ fastapi==0.115.5
 uvicorn[standard]==0.32.1
 sqlalchemy==2.0.36
 redis==5.2.0
-celery[redis]==5.6.2
+celery==5.6.2
 ```
 
 ## Como Executar
