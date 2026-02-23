@@ -17,3 +17,16 @@ services:
     image: redis:7-alpine
     ports:
       - "6379:6379"
+
+  celery_worker:
+    build: .
+    command: celery -A celery_app worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
