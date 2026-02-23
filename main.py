@@ -8,6 +8,7 @@ from sqlalchemy import create_engine, func
 from sqlalchemy.orm import DeclarativeBase, sessionmaker, Session, Mapped, mapped_column
 from redis import Redis
 import json
+from celery_app import calcular_fatorial, calcular_soma
 
 # CONFIGURAÇÕES
 load_dotenv()
@@ -148,4 +149,30 @@ async def delete_livro(id:int, session: Session = Depends(get_db), credentials: 
     session.commit()
     await deletar_livros_redis()
     return {"message": "Livro deletado com sucesso"}
-        
+
+@app.post("/calcular/soma")
+async def calcula_soma(a:int, b:int):
+    task = calcular_soma.delay(a, b)
+    return {
+        "task_id": task.id,
+        "status": task.status,
+        "message": "Tarefa de calcular soma disparada com sucesso"
+    }
+
+@app.post("/calcular/fatorial")
+async def calcula_fatorial(n: int):
+    task = calcular_fatorial.delay(n)
+    return {
+        "task_id": task.id,
+        "status": task.status,
+        "message": "Tarefa de calcular fatorial disparada com sucesso"
+    }
+
+@app.get("/fila_celery")
+async def listar_fila():
+    fila = redis_client.lrange("celery", 0, -1)
+    tasks = [json.loads(task) for task in fila]
+    return {
+        "total": len(tasks),
+        "tasks": tasks
+    }
