@@ -15,8 +15,12 @@ def calcular_soma(a:int, b:int):
 @celery_app.task
 def calcular_fatorial(n):
     time.sleep(3)
+    if n < 0:
+        raise ValueError("O número não pode ser negativo")
     if n == 0:
         return 1
+    if n > 200:
+        raise ValueError("O número não pode ser maior do que 200")
     resultado = 1
     for i in range(n, 0, -1):
         resultado *= i
